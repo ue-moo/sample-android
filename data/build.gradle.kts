@@ -32,6 +32,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.opencv)
     implementation(projects.domain)
     implementation(libs.hiltAndroid)
     ksp(libs.hiltCompiler)

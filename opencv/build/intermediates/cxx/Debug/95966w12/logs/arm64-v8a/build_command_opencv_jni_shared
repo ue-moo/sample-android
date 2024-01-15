@@ -1,0 +1,4 @@
+/Users/a_uemura/Library/Android/sdk/cmake/3.22.1/bin/ninja \
+  -C \
+  /Users/a_uemura/project2/real/Sample/opencv/.cxx/Debug/95966w12/arm64-v8a \
+  opencv_jni_shared
