@@ -143,7 +143,7 @@
         "rootBuildGradleFolder": "/Users/a_uemura/project2/real/Sample",
         "sdkFolder": "/Users/a_uemura/Library/Android/sdk",
         "isBuildOnlyTargetAbiEnabled": true,
-        "ideBuildTargetAbi": "arm64-v8a,armeabi-v7a,armeabi",
+        "ideBuildTargetAbi": "arm64-v8a",
         "isCmakeBuildCohabitationEnabled": false,
         "isPrefabEnabled": false
       },
