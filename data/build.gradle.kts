@@ -32,6 +32,10 @@ android {
 }
 
 dependencies {
+<<<<<<< HEAD
+=======
+    implementation(projects.opencv)
+>>>>>>> feature/chore_opencv
     implementation(projects.domain)
     implementation(libs.hiltAndroid)
     ksp(libs.hiltCompiler)

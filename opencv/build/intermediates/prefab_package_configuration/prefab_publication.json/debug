@@ -1,0 +1,50 @@
+{
+  "installationFolder": "/Users/a_uemura/project2/real/Sample/opencv/build/intermediates/prefab_package/debug/prefab",
+  "gradlePath": ":opencv",
+  "packageInfo": {
+    "packageName": "opencv",
+    "packageSchemaVersion": 2,
+    "packageDependencies": [],
+    "modules": [
+      {
+        "moduleName": "opencv_jni_shared",
+        "moduleHeaders": "/Users/a_uemura/project2/real/Sample/opencv/native/jni/include",
+        "moduleExportLibraries": [],
+        "abis": [
+          {
+            "abiName": "armeabi-v7a",
+            "abiApi": 26,
+            "abiNdkMajor": 25,
+            "abiStl": "c++_shared",
+            "abiLibrary": "/Users/a_uemura/project2/real/Sample/opencv/.cxx/Debug/1e4u94h5/armeabi-v7a/libopencv_jni_shared.a",
+            "abiAndroidGradleBuildJsonFile": "/Users/a_uemura/project2/real/Sample/opencv/.cxx/Debug/1e4u94h5/armeabi-v7a/android_gradle_build.json"
+          },
+          {
+            "abiName": "arm64-v8a",
+            "abiApi": 26,
+            "abiNdkMajor": 25,
+            "abiStl": "c++_shared",
+            "abiLibrary": "/Users/a_uemura/project2/real/Sample/opencv/.cxx/Debug/1e4u94h5/arm64-v8a/libopencv_jni_shared.a",
+            "abiAndroidGradleBuildJsonFile": "/Users/a_uemura/project2/real/Sample/opencv/.cxx/Debug/1e4u94h5/arm64-v8a/android_gradle_build.json"
+          },
+          {
+            "abiName": "x86",
+            "abiApi": 26,
+            "abiNdkMajor": 25,
+            "abiStl": "c++_shared",
+            "abiLibrary": "/Users/a_uemura/project2/real/Sample/opencv/.cxx/Debug/1e4u94h5/x86/libopencv_jni_shared.a",
+            "abiAndroidGradleBuildJsonFile": "/Users/a_uemura/project2/real/Sample/opencv/.cxx/Debug/1e4u94h5/x86/android_gradle_build.json"
+          },
+          {
+            "abiName": "x86_64",
+            "abiApi": 26,
+            "abiNdkMajor": 25,
+            "abiStl": "c++_shared",
+            "abiLibrary": "/Users/a_uemura/project2/real/Sample/opencv/.cxx/Debug/1e4u94h5/x86_64/libopencv_jni_shared.a",
+            "abiAndroidGradleBuildJsonFile": "/Users/a_uemura/project2/real/Sample/opencv/.cxx/Debug/1e4u94h5/x86_64/android_gradle_build.json"
+          }
+        ]
+      }
+    ]
+  }
+}

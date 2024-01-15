@@ -22,3 +22,7 @@ rootProject.name = "Sample"
 include(":app")
 include(":data")
 include(":domain")
+<<<<<<< HEAD
+=======
+include(":opencv")
+>>>>>>> feature/chore_opencv
