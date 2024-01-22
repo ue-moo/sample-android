@@ -1,6 +1,6 @@
 package com.github.uemoo.android.data.repository
 
-import com.github.uemoo.android.domain.repository.SampleRepository
+import com.github.uemoo.android.domain.repository.CatRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -11,5 +11,5 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 internal interface RepositoryModule {
     @Binds
-    fun bindSampleRepository(impl: SampleRepositoryImpl): SampleRepository
+    fun bindCatRepository(impl: CatRepositoryImpl): CatRepository
 }

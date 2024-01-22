@@ -1,8 +1,13 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.ksp)
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 android {
@@ -22,13 +27,6 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
 }
 
 dependencies {
@@ -37,6 +35,14 @@ dependencies {
     implementation(libs.hiltAndroid)
     ksp(libs.hiltCompiler)
 
+    // Network
+    implementation(platform(libs.okhttpBom))
+    implementation(libs.okhttp)
+    implementation(libs.okhttpLogginInterceptor)
+    implementation(libs.retrofit)
+    implementation(libs.retrofitKotlinxSerializationConverter)
+
+    implementation(libs.kotlinSerializationJson)
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)

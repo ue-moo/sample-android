@@ -4,6 +4,7 @@ plugins {
 }
 
 dependencies {
+    implementation(libs.coroutinesCore)
     implementation(libs.hiltCore)
     ksp(libs.hiltCompiler)
 }
