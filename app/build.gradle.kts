@@ -1,8 +1,14 @@
+import com.android.build.api.dsl.VariantDimension
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.ksp)
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 android {
@@ -25,17 +31,17 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            buildConfigStringFiled("BASE_URL", "https://cat-fact.herokuapp.com")
+        }
+        debug {
+            isDebuggable = true
+            buildConfigStringFiled("BASE_URL", "https://cat-fact.herokuapp.com")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildFeatures {
+        buildConfig = true
         compose = true
         viewBinding = true
     }
@@ -47,6 +53,14 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+}
+
+/**
+ * BuildConfigField に文字列を設定する
+ */
+fun VariantDimension.buildConfigStringFiled(name: String, value: String) {
+    val literal = "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"") + "\""
+    buildConfigField("String", name, literal)
 }
 
 dependencies {

@@ -2,8 +2,8 @@ package com.github.uemoo.android.sample
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.uemoo.android.domain.entity.Token
-import com.github.uemoo.android.domain.repository.SampleRepository
+import com.github.uemoo.android.domain.entity.CatFact
+import com.github.uemoo.android.domain.usecase.GetCatFactOrExceptionUseCase
 import com.github.uemoo.android.sample.coroutine.LaunchSafe
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
@@ -15,11 +15,11 @@ import javax.inject.Inject
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
     launchSafe: LaunchSafe,
-    private val repository: SampleRepository,
+    private val getCatFactOrExceptionUseCase: GetCatFactOrExceptionUseCase,
 ) : ViewModel(), LaunchSafe by launchSafe {
 
-    private val _token = MutableStateFlow<Token?>(null)
-    val token = _token.asStateFlow()
+    private val _catFact = MutableStateFlow<CatFact?>(null)
+    val catFact = _catFact.asStateFlow()
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
@@ -32,8 +32,9 @@ internal class MainViewModel @Inject constructor(
         // launchSafe 内で漏れた例外は共通のエラーハンドリングに移行する
         // 画面固有の例外のみ try-catch などで独自のハンドリング行う
         viewModelScope.launchSafe {
-            _token.update { repository.getTokenOrException() }
+            _catFact.update { getCatFactOrExceptionUseCase() }
         }.invokeOnCompletion { e ->
+            // CancellationException はコルーチンのキャンセルを伝播するために使用するので流す
             val isError = e != null && e !is CancellationException
             _isError.update { isError }
             _isLoading.update { false }

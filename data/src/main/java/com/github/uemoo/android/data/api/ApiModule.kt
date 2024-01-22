@@ -4,11 +4,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
 
 @Suppress("unused")
 @Module
 @InstallIn(SingletonComponent::class)
 internal object ApiModule {
     @Provides
-    fun provideSampleApi(): SampleApi = SampleApi()
+    fun provideCatApi(retrofit: Retrofit): CatApi = retrofit.create(CatApi::class.java)
 }

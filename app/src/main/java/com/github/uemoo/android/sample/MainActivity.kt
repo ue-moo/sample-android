@@ -5,8 +5,19 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -14,6 +25,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.github.uemoo.android.sample.error.ErrorStateHolder
 import com.github.uemoo.android.sample.ui.theme.SampleTheme
@@ -33,34 +47,69 @@ internal class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val catFact by viewModel.catFact.collectAsState()
+            val isLoading by viewModel.isLoading.collectAsState()
+            val isError by viewModel.isError.collectAsState()
+
             SampleTheme {
                 Box(
                     modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
                 ) {
-                    Button(
-                        onClick = viewModel::fetch,
+                    Column(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .padding(all = 16.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Text(text = "更新する")
+                        Crossfade(
+                            targetState = isError,
+                            modifier = Modifier.fillMaxWidth(),
+                            label = "Sample",
+                        ) { isError ->
+                            if (isError) {
+                                Text(
+                                    text = "エラーが発生しました",
+                                    modifier = Modifier.fillMaxWidth(),
+                                    textAlign = TextAlign.Center,
+                                )
+                            } else {
+                                catFact?.let {
+                                    Text(
+                                        text = it.text,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        textAlign = TextAlign.Center,
+                                    )
+                                }
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(height = 20.dp))
+
+                        Button(
+                            onClick = viewModel::fetch,
+                        ) {
+                            Text(text = "更新する")
+                        }
                     }
 
-                    val isLoading by viewModel.isLoading.collectAsState()
-
-                    if (isLoading) {
+                    AnimatedVisibility(
+                        visible = isLoading,
+                        modifier = Modifier
+                            .matchParentSize()
+                            .background(color = Color.White),
+                        enter = fadeIn(),
+                        exit = fadeOut(),
+                    ) {
                         Box(
-                            modifier = Modifier.matchParentSize(),
+                            modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center,
                         ) {
                             CircularProgressIndicator()
                         }
                     }
                 }
-            }
-        }
-
-        // データを取得
-        lifecycleScope.launch {
-            viewModel.token.filterNotNull().collect { token ->
-                Toast.makeText(this@MainActivity, "成功：$token", Toast.LENGTH_SHORT).show()
             }
         }
 
