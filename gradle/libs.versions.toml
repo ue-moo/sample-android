@@ -41,6 +41,8 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version = "2.9.0" }
 retrofitKotlinxSerializationConverter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version = "1.0.0" }
 kotlinSerializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.6.2" }
 coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version = "1.7.3" }
+linesdk = { module = "com.linecorp.linesdk:linesdk", version = "5.10.0" }
+hiltNavigationCompose = { module = "androidx.hilt:hilt-navigation-compose", version = "1.1.0" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

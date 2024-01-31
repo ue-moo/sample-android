@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -30,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.github.uemoo.android.sample.error.ErrorStateHolder
+import com.github.uemoo.android.sample.ui.login.LoginScreen
 import com.github.uemoo.android.sample.ui.theme.SampleTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filterNotNull
@@ -43,6 +45,10 @@ internal class MainActivity : ComponentActivity() {
     lateinit var errorStateHolder: ErrorStateHolder
 
     private val viewModel by viewModels<MainViewModel>()
+
+    private val loginResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+    ) { viewModel.handleLineLoginResult(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +90,10 @@ internal class MainActivity : ComponentActivity() {
                                 }
                             }
                         }
+
+                        LoginScreen(
+                            onLineLoginClick = loginResultLauncher::launch,
+                        )
 
                         Spacer(modifier = Modifier.height(height = 20.dp))
 

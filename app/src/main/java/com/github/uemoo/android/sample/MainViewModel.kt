@@ -1,10 +1,14 @@
 package com.github.uemoo.android.sample
 
+import android.app.Activity
+import android.util.Log
+import androidx.activity.result.ActivityResult
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.uemoo.android.domain.entity.CatFact
 import com.github.uemoo.android.domain.usecase.GetCatFactOrExceptionUseCase
 import com.github.uemoo.android.sample.coroutine.LaunchSafe
+import com.linecorp.linesdk.auth.LineLoginApi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,5 +43,22 @@ internal class MainViewModel @Inject constructor(
             _isError.update { isError }
             _isLoading.update { false }
         }
+    }
+
+    /**
+     * LINE のログイン結果をハンドリングする
+     */
+    fun handleLineLoginResult(activityResult: ActivityResult) {
+        if (activityResult.resultCode != Activity.RESULT_OK) return
+
+        val result = LineLoginApi.getLoginResultFromIntent(activityResult.data)
+
+        // ログイン失敗
+        if (!result.isSuccess) {
+            Log.d("XXX", "login failed... :${result.errorData}")
+            return
+        }
+        // ログイン成功
+        Log.d("XXX", "login success! :${result.lineCredential?.accessToken?.tokenString}")
     }
 }
