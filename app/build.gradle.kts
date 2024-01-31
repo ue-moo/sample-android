@@ -68,8 +68,6 @@ dependencies {
     implementation(projects.domain)
     implementation(libs.hiltAndroid)
     ksp(libs.hiltCompiler)
-
-
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
@@ -78,6 +76,8 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.linesdk)
+    implementation(libs.hiltNavigationCompose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
