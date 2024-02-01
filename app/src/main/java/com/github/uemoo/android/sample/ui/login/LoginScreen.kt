@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -15,6 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 internal fun LoginScreen(
     onLineLoginClick: (Intent) -> Unit,
+    modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -24,6 +26,7 @@ internal fun LoginScreen(
         onLineLoginClick = {
             onLineLoginClick(viewModel.createLineLoginIntent())
         },
+        modifier = modifier,
     )
 }
 
@@ -31,9 +34,11 @@ internal fun LoginScreen(
 private fun LoginScreen(
     uiState: LoginUiState,
     onLineLoginClick: () -> Unit,
+    modifier: Modifier,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
     ) {
         Button(
             onClick = onLineLoginClick,

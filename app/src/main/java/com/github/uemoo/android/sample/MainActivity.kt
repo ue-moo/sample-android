@@ -93,6 +93,9 @@ internal class MainActivity : ComponentActivity() {
 
                         LoginScreen(
                             onLineLoginClick = loginResultLauncher::launch,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(weight = 1f),
                         )
 
                         Spacer(modifier = Modifier.height(height = 20.dp))
@@ -101,6 +104,11 @@ internal class MainActivity : ComponentActivity() {
                             onClick = viewModel::fetch,
                         ) {
                             Text(text = "更新する")
+                        }
+                        Button(
+                            onClick = viewModel::deleteCatFactCache,
+                        ) {
+                            Text(text = "キャッシュを削除する")
                         }
                     }
 

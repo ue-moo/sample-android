@@ -6,7 +6,8 @@ import androidx.activity.result.ActivityResult
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.uemoo.android.domain.entity.CatFact
-import com.github.uemoo.android.domain.usecase.GetCatFactOrExceptionUseCase
+import com.github.uemoo.android.domain.usecase.DeleteCatFactUseCase
+import com.github.uemoo.android.domain.usecase.GetCatFactUseCase
 import com.github.uemoo.android.sample.coroutine.LaunchSafe
 import com.linecorp.linesdk.auth.LineLoginApi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
     launchSafe: LaunchSafe,
-    private val getCatFactOrExceptionUseCase: GetCatFactOrExceptionUseCase,
+    private val getCatFactOrExceptionUseCase: GetCatFactUseCase,
+    private val deleteCatFactUseCase: DeleteCatFactUseCase,
 ) : ViewModel(), LaunchSafe by launchSafe {
 
     private val _catFact = MutableStateFlow<CatFact?>(null)
@@ -43,6 +45,10 @@ internal class MainViewModel @Inject constructor(
             _isError.update { isError }
             _isLoading.update { false }
         }
+    }
+
+    fun deleteCatFactCache() {
+        deleteCatFactUseCase()
     }
 
     /**

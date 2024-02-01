@@ -4,4 +4,5 @@ import com.github.uemoo.android.domain.entity.CatFact
 
 interface CatRepository {
     suspend fun getCatFacts(): List<CatFact>
+    fun clearCatFactsCache()
 }
