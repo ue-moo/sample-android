@@ -3,36 +3,14 @@ package com.github.uemoo.android.sample
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.Crossfade
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.github.uemoo.android.sample.databinding.ActivityWelcomeBinding
 import com.github.uemoo.android.sample.error.ErrorStateHolder
-import com.github.uemoo.android.sample.ui.login.LoginScreen
-import com.github.uemoo.android.sample.ui.theme.SampleTheme
+import com.github.uemoo.android.sample.ui.ScreenType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
@@ -44,6 +22,7 @@ internal class MainActivity : ComponentActivity() {
     @Inject
     lateinit var errorStateHolder: ErrorStateHolder
 
+    private lateinit var binding: ActivityWelcomeBinding
     private val viewModel by viewModels<MainViewModel>()
 
     private val loginResultLauncher = registerForActivityResult(
@@ -52,7 +31,34 @@ internal class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
+        binding = ActivityWelcomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { uiState ->
+                    // すべての情報が UiState に詰まっているため、collect の処理が大きくなるのが難点
+                    // Compose であれば差分があった箇所のみ部分的に更新できるので解消する
+                    val type = uiState.type
+                    binding.titleTextview.text = type.title
+                    binding.descriptionTextview.text = type.description
+                    binding.socialButton.text = type.socialButtonText
+                    binding.socialButton.setOnClickListener {
+                        val text = when (type) {
+                            ScreenType.Login -> "LINEでログインします"
+                            ScreenType.Register -> "LINEで新規登録します"
+                        }
+                        Toast.makeText(this@MainActivity, text, Toast.LENGTH_SHORT).show()
+                    }
+                    binding.nextButton.text = type.nextButtonText
+                    binding.nextButton.setOnClickListener {
+                        viewModel.nextScreenType()
+                    }
+                }
+            }
+        }
+
+        /*setContent {
             val catFact by viewModel.catFact.collectAsState()
             val isLoading by viewModel.isLoading.collectAsState()
             val isError by viewModel.isError.collectAsState()
@@ -129,7 +135,7 @@ internal class MainActivity : ComponentActivity() {
                     }
                 }
             }
-        }
+        }*/
 
         // エラーをユーザーに伝える
         lifecycleScope.launch {
