@@ -44,6 +44,8 @@ coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", ver
 linesdk = { module = "com.linecorp.linesdk:linesdk", version = "5.10.0" }
 hiltNavigationCompose = { module = "androidx.hilt:hilt-navigation-compose", version = "1.1.0" }
 
+constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version = "2.2.0-alpha07" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }

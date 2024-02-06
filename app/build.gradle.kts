@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.linesdk)
     implementation(libs.hiltNavigationCompose)
+    implementation(libs.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
