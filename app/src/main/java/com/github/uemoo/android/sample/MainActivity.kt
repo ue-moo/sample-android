@@ -8,6 +8,12 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.github.uemoo.android.data.exception.AbstractApiException
+import com.github.uemoo.android.data.exception.AbstractAppException
+import com.github.uemoo.android.data.exception.ApiException
+import com.github.uemoo.android.data.exception.AppException
+import com.github.uemoo.android.data.exception.FatalException
 import com.github.uemoo.android.sample.databinding.ActivityWelcomeBinding
 import com.github.uemoo.android.sample.error.ErrorStateHolder
 import com.github.uemoo.android.sample.ui.ScreenType
@@ -33,6 +39,10 @@ internal class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.refreshButton.setOnClickListener {
+            viewModel.fetch()
+        }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -141,7 +151,13 @@ internal class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             errorStateHolder.error.filterNotNull().collect { error ->
                 errorStateHolder.consumeError()
-                Toast.makeText(this@MainActivity, "失敗：${error.message}", Toast.LENGTH_SHORT).show()
+                // エラーによって UI を出し分ける
+                val text = when (error) {
+                    is ApiException -> error.requestUrl
+                    is FatalException.ForceUpdateException -> error.customField
+                    is AppException -> error.customField
+                }
+                Toast.makeText(this@MainActivity, "ERROR：${error.javaClass.simpleName}:text=$text", Toast.LENGTH_LONG).show()
             }
         }
 

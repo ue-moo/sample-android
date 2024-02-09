@@ -1,5 +1,8 @@
 package com.github.uemoo.android.sample.coroutine
 
+import com.github.uemoo.android.data.exception.AbstractAppException
+import com.github.uemoo.android.data.exception.AbstractException
+import com.github.uemoo.android.data.exception.AppException
 import com.github.uemoo.android.sample.error.ErrorStateHolder
 import dagger.Binds
 import dagger.Module
@@ -35,7 +38,14 @@ internal class LaunchSafeImpl @Inject constructor(
 ) : LaunchSafe {
 
     private val policy: CoroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        errorStateHolder.produceError(error = throwable)
+        val error = when (throwable) {
+            is AbstractException -> throwable
+            else -> {
+                // TODO: 想定外の例外の処理
+                AppException(customField = throwable.message ?: "no message")
+            }
+        }
+        errorStateHolder.produceError(error = error)
     }
 
     override fun CoroutineScope.launchSafe(

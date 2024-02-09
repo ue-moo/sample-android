@@ -11,6 +11,6 @@ class GetCatFactUseCase @Inject constructor(
     private val catRepository: CatRepository,
 ) {
     suspend operator fun invoke(): CatFact {
-        return catRepository.getCatFacts().random()
+        return catRepository.getCatFacts(forceRefresh = true).random()
     }
 }
