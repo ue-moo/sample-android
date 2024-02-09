@@ -17,9 +17,9 @@ internal class CatRepositoryImpl @Inject constructor(
     // 腐敗防止層の役割を持つ
     // ローカル DB にキャッシュがあればキャッシュを、なければ API からデータを取得する
     // API 取得時に例外が発生する場合がある
-    override suspend fun getCatFacts(): List<CatFact> {
+    override suspend fun getCatFacts(forceRefresh: Boolean): List<CatFact> {
         val cache = dao.query()
-        return if (cache != null) {
+        return if (cache != null && !forceRefresh) {
             Log.d("XXX", "キャッシュから取得しました")
             cache
         } else {
