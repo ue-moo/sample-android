@@ -24,6 +24,11 @@ internal interface InterceptorModule {
     @OkHttpInterceptor
     @IntoSet
     @Binds
+    fun bindAddAuthHeaderInterceptor(impl: AddAuthHeaderInterceptor): Interceptor
+
+    @OkHttpInterceptor
+    @IntoSet
+    @Binds
     fun bindCheckApiResponseInterceptor(impl: CheckApiResponseInterceptor): Interceptor
 }
 
