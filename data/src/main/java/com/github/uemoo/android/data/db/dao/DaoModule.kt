@@ -14,4 +14,9 @@ internal object DaoModule {
     fun provideCatDao(
         sharedPreferences: SharedPreferences
     ): CatFactDao = CatFactDao(sharedPreferences)
+
+    @Provides
+    fun provideAuthTokenDao(
+        sharedPreferences: SharedPreferences
+    ): AuthTokenDao = AuthTokenDao(sharedPreferences)
 }
